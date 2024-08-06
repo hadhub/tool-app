@@ -19,14 +19,12 @@
         
         $req_display_users = "SELECT username FROM users;";
         if ($result = $conn->query($req_display_users)) {
-
             /* fetch associative array */
             while ($row = $result->fetch_assoc()) {
                 $username = $row["username"];
                 echo "<br>";
                 echo $username;
             }
-        
             /* free result set */
             $result->free();
         }
