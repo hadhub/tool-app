@@ -5,7 +5,8 @@ This lab contains :
 - SQLi
 
 List of vuln to add :
-- [ ] XSS
-
+- XSS
+- LFI
+- RFI
 
 _Maybe a dockerfile asap_
