@@ -42,7 +42,5 @@
             // Si non -> reste sur la page et affichage d'un lien vers la page register.php
 
     ?>
-
-
 </body>
 </html>
