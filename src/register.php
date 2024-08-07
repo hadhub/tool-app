@@ -22,27 +22,36 @@
 
     <?php
         require_once("../conf/creds.php");
+        
         $user       = $_POST["username"];
         $password   = $_POST["password"];
-        // Now we check if the data was submitted, isset() function will check if the data exists.
+        
         if (!isset($user, $password)) {
-            // Could not get the data that should have been sent.
-            exit('Please complete the registration form!');
-        }
-        // Make sure the submitted registration values are not empty.
-        if (empty($user) || empty($password)) {
-            // One or more values are empty.
             exit('Please complete the registration form');
         }
-        // TODO : cancel the account creation if username already exist in database
+        if (empty($user) || empty($password)) {
+            exit('Please complete the registration form');
+        }
         
-        $hash_password = password_hash($password, PASSWORD_DEFAULT);
-        $req_register_account = "INSERT INTO users (username, password) VALUES ('$user', '$hash_password');";
-        $conn->query($req_register_account);
-        echo "<br>";
-        echo "Account created, please go to login page to complete ur inscription.";
+        $req_check_user_already_exist = "SELECT username FROM users WHERE users.username='$user';";
 
-        mysqli_close($conn);
+        if($result = $conn->query($req_check_user_already_exist)) {
+            
+            if(mysqli_num_rows($result) > 0){
+                echo "Username already exist";
+                mysqli_close($conn);
+
+            } else {
+                $hash_password = password_hash($password, PASSWORD_DEFAULT);
+                $req_register_account = "INSERT INTO users (username, password) VALUES ('$user', '$hash_password');";
+                $conn->query($req_register_account);
+                
+                echo "<br>";
+                echo "Account created, please go to login page to complete ur inscription.";
+                
+                mysqli_close($conn);
+            }
+        }
     ?>
 
     <a href="/src/login.php" class="url">Login</a>
